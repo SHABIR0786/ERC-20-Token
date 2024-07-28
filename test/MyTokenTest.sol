@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
+
 import {Test} from "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
 import {MyToken} from "../src/MyToken.sol";
@@ -22,7 +23,6 @@ contract MyTokenTest is Test {
         // myToken.transfer(msg.sender, INITIAL_SUPPLY);
         vm.prank(msg.sender);
         myToken.transfer(bob, STARTING_BALANCE);
-
     }
 
     function testBobBalance() public view {
@@ -31,7 +31,7 @@ contract MyTokenTest is Test {
 
     function testAllowancesWorks() public {
         uint256 initialAllownce = 1000;
-        
+
         vm.prank(bob);
         myToken.approve(alice, initialAllownce);
 
@@ -45,29 +45,29 @@ contract MyTokenTest is Test {
 
     function testTransfer() public {
         uint256 transferAmount = 50 ether;
-        
+
         vm.prank(bob);
         myToken.transfer(alice, transferAmount);
-        
+
         assertEq(myToken.balanceOf(bob), STARTING_BALANCE - transferAmount);
         assertEq(myToken.balanceOf(alice), transferAmount);
     }
 
     function testMint() public {
         uint256 mintAmount = 100 ether;
-        
+
         vm.prank(msg.sender);
         myToken.mint(bob, mintAmount);
-        
+
         assertEq(myToken.balanceOf(bob), STARTING_BALANCE + mintAmount);
     }
 
     function testBurn() public {
         uint256 burnAmount = 50 ether;
-        
+
         vm.prank(bob);
         myToken.burn(burnAmount);
-        
+
         assertEq(myToken.balanceOf(bob), STARTING_BALANCE - burnAmount);
     }
 
@@ -80,7 +80,7 @@ contract MyTokenTest is Test {
 
     function testApproveAndTransferFromExceedsAllowance() public {
         uint256 initialAllowance = 1000;
-        
+
         vm.prank(bob);
         myToken.approve(alice, initialAllowance);
 
